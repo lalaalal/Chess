@@ -1,12 +1,31 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using Chess.Pieces;
 
 namespace Chess
 {
     public abstract class BoardView
     {
+        public static Point Parse(string point)
+        {
+            if ('a' > point[0] || point[0] > 'h')
+                throw new ArgumentException("first should be a ~ h");
+
+            if ('1' > point[1] || point[1] > '8')
+                throw new ArgumentException("second should be 1 ~ 8");
+
+            int x = point[0] - 'a';
+            int y = point[1] - '1';
+
+            return new Point(x, y);
+        }
+
+        public static string Parse(Point point)
+        {
+            return Convert.ToChar('a' + point.x).ToString() + Convert.ToChar('1' + point.y);
+        }
+
         protected Piece[,] board = new Piece[8, 8];
+
         public ImmutablePiece this[Point point]
         {
             get => board[point.y, point.x];
@@ -15,20 +34,6 @@ namespace Chess
         public bool IsEmpty(Point point)
         {
             return this[point] == null;
-        }
-
-        public bool IsPathAvailable(Point from, Point to)
-        {
-            if (IsEmpty(from))
-                throw new ArgumentException();
-            Point delta = (to - from).Unit();
-
-            for (Point p = from + delta; p != to; p += delta)
-            {
-                if (!IsEmpty(p))
-                    return false;
-            }
-            return IsEmpty(to) || this[from].IsEnemy(this[to]);
         }
 
         public static bool PointInRange(Point point)
@@ -45,9 +50,9 @@ namespace Chess
             set => board[point.y, point.x] = value;
         }
 
-        public void AddPiece(Point point, Team team, Kind kind)
+        public void AddPiece(PieceType kind, Point point, Team team)
         {
-            this[point] = PieceFactory.CreatePiece(point, team, kind);
+            this[point] = Piece.CreatePiece(kind, point, team);
         }
 
         public void AddPiece(Piece piece)
@@ -64,6 +69,7 @@ namespace Chess
 
             this[from] = null;
             this[to] = target;
+            target.Move(to);
             return true;
         }
     }

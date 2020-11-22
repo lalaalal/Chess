@@ -31,50 +31,50 @@ namespace Chess
         {
             Move(point.x, point.y);
         }
-        
-        public Point Unit()
-        {
-            int x = this.x == 0 ? 0 : this.x / Math.Abs(this.x);
-            int y = this.y == 0 ? 0 : this.y / Math.Abs(this.y);
 
-            return new Point(x, y);
+        public Point Unit
+        {
+            get
+            {
+                int x = this.x == 0 ? 0 : this.x / Math.Abs(this.x);
+                int y = this.y == 0 ? 0 : this.y / Math.Abs(this.y);
+
+                return new Point(x, y);
+            }
         }
 
-        public double Abs()
-        {
-            return Math.Sqrt(x * x + y * y);
-        }
+        public double Abs => Math.Sqrt(x * x + y * y);
 
-        public static bool operator==(Point a, Point b)
+        public static bool operator ==(Point a, Point b)
         {
             return a.x == b.x && a.y == b.y;
         }
 
-        public static bool operator!=(Point a, Point b)
+        public static bool operator !=(Point a, Point b)
         {
             return !(a == b);
         }
 
-        public static bool operator<(Point a, Point b)
+        public static bool operator <(Point a, Point b)
         {
-            return a.Abs() < b.Abs();
+            return a.Abs < b.Abs;
         }
 
-        public static bool operator>(Point a, Point b)
+        public static bool operator >(Point a, Point b)
         {
-            return a.Abs() > b.Abs();
+            return a.Abs > b.Abs;
         }
 
-        public static Point operator-(Point point)
+        public static Point operator -(Point point)
         {
             return new Point(-point.x, -point.y);
         }
-        public static Point operator+(Point a, Point b)
+        public static Point operator +(Point a, Point b)
         {
             return new Point(a.x + b.x, a.y + b.y);
         }
 
-        public static Point operator-(Point a, Point b)
+        public static Point operator -(Point a, Point b)
         {
             return a + -b;
         }
