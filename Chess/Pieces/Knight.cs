@@ -6,6 +6,8 @@ namespace Chess.Pieces
 
         public override char Identifier => 'N';
 
+        public override PieceType Type => PieceType.Knight;
+
         private static Point DefaultPoint(int x, Team team)
             => new Point(x, team == Team.White ? 0 : 7);
         public Knight(Point point, Team team) : base(point, team) { }
@@ -19,13 +21,13 @@ namespace Chess.Pieces
         {
             Point delta = to - _currentPoint;
 
-            return DoesDirectionCorrect(delta) && IsPointAvailable(to, board);
+            return IsLegalMove(delta) && IsPointAvailable(to, board);
         }
 
         private bool IsPointAvailable(Point point, BoardView board)
             => (board.IsEmpty(point) || IsEnemy(board[point]));
 
-        protected override bool DoesDirectionCorrect(Point delta)
+        protected override bool IsLegalMove(Point delta)
             => (unitLength == delta.Abs);
     }
 }

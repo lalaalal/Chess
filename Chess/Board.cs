@@ -36,9 +36,36 @@ namespace Chess
             return this[point] == null;
         }
 
-        public static bool PointInRange(Point point)
+        public bool IsOccupied(Point point)
+        {
+            return this[point] != null;
+        }
+
+        public static bool IsPointInRange(Point point)
         {
             return 0 <= point.x && point.x <= 8 && 0 <= point.y && point.y <= 8;
+        }
+
+        public delegate ImmutablePiece PieceGetter(Point from, Point delta);
+
+        public ImmutablePiece GetFirstPieceOnPath(Point from, Point delta)
+        {
+            for (Point p = from + delta; Board.IsPointInRange(p); p += delta)
+            {
+                if (IsOccupied(p))
+                    return this[p];
+            }
+            return null;
+        }
+
+        public ImmutablePiece GetPieceAtPoint(Point from, Point delta)
+        {
+            Point p = from + delta;
+
+            if (IsPointInRange(p) && IsOccupied(p))
+                return this[p];
+
+            return null;
         }
     }
 
@@ -59,6 +86,11 @@ namespace Chess
         {
             Point point = piece.CurrentPoint;
             this[point] = piece;
+        }
+
+        public Piece PopPiece(Point point)
+        {
+            return this[point];
         }
 
         public bool MovePiece(Point from, Point to)

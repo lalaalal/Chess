@@ -16,15 +16,6 @@ namespace Chess.Commands
 
         public State Execute(Player player)
         {
-            try
-            {
-                if (!player.MovePiece(from, to))
-                    return new WrongCommandState("Cannot move " + Board.Parse(from) + " to " + Board.Parse(to));
-            }
-            catch (NullReferenceException)
-            {
-                return new WrongCommandState(Board.Parse(from) + " is empty");
-            }
             return new PlayingState();
         }
     }

@@ -4,6 +4,8 @@ namespace Chess.Pieces
     {
         public override char Identifier => 'R';
 
+        public override PieceType Type => PieceType.Rook;
+
         private static Point DefaultPoint(int x, Team team)
             => new Point(x, team == Team.White ? 0 : 7);
 
@@ -14,7 +16,7 @@ namespace Chess.Pieces
         /// </summary>
         public Rook(int x, Team team) : base(DefaultPoint(x, team), team) { }
 
-        protected override bool DoesDirectionCorrect(Point delta)
+        protected override bool IsLegalMove(Point delta)
             => (crossUnitLength == delta.Unit.Abs);
     }
 }

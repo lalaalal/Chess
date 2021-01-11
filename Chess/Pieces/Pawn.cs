@@ -11,6 +11,8 @@ namespace Chess.Pieces
 
         public override char Identifier => 'P';
 
+        public override PieceType Type => PieceType.Pawn;
+
         public Pawn(Point point, Team team) : base(point, team)
         {
             IsMoved = false;
@@ -29,7 +31,7 @@ namespace Chess.Pieces
             Point delta = to - _currentPoint;
             if (delta.x == 0)
             {
-                if (DoesDirectionCorrect(delta) && board.IsEmpty(to))
+                if (IsLegalMove(delta) && board.IsEmpty(to))
                     return true;
                 else if (delta.y == (int)Team * 2 && board.IsEmpty(to) && !IsMoved)
                     return true;
@@ -37,8 +39,8 @@ namespace Chess.Pieces
                     return false;
             }
 
-            if (Math.Abs(delta.x) == 1 && DoesDirectionCorrect(delta))
-                if (!board.IsEmpty(to) && IsEnemy(board[to]))
+            if (Math.Abs(delta.x) == 1 && IsLegalMove(delta))
+                if (board.IsOccupied(to) && IsEnemy(board[to]))
                     return true;
 
             return false;
@@ -50,7 +52,7 @@ namespace Chess.Pieces
             base.Move(to);
         }
 
-        protected override bool DoesDirectionCorrect(Point delta)
+        protected override bool IsLegalMove(Point delta)
             => (delta.y == (int)Team);
     }
 }

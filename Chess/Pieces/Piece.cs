@@ -19,6 +19,8 @@ namespace Chess.Pieces
 
         public abstract char Identifier { get; }
 
+        public abstract PieceType Type { get; }
+
         public Point CurrentPoint { get => new Point(_currentPoint); }
         protected Point _currentPoint;
 
@@ -30,6 +32,12 @@ namespace Chess.Pieces
             this.Team = team;
             this._currentPoint = new Point(point);
         }
+
+        public bool IsFriendly(ImmutablePiece piece)
+        {
+            return piece != null && piece.Team == Team;
+        }
+
         public bool IsEnemy(ImmutablePiece piece)
         {
             return piece != null && piece.Team != Team;
@@ -37,9 +45,9 @@ namespace Chess.Pieces
 
         public virtual bool CanMoveTo(Point to, BoardView board)
         {
-            Point delta = to - _currentPoint;
+            Point delta = to - CurrentPoint;
 
-            return DoesDirectionCorrect(delta) && IsPathAvailable(to, board);
+            return IsLegalMove(delta) && IsPathAvailable(to, board);
         }
 
         public bool IsPathAvailable(Point to, BoardView board)
@@ -50,13 +58,17 @@ namespace Chess.Pieces
 
             for (Point p = _currentPoint + delta; p != to; p += delta)
             {
-                if (!board.IsEmpty(p))
+                if (board.IsOccupied(p))
                     return false;
             }
             return board.IsEmpty(to) || IsEnemy(board[to]);
         }
 
-        protected abstract bool DoesDirectionCorrect(Point delta);
+        protected abstract bool IsLegalMove(Point delta);
+        public Piece Clone()
+        {
+            return Piece.CreatePiece(Type, _currentPoint, Team);
+        }
     }
 
     public abstract class Piece : ImmutablePiece
