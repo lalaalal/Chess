@@ -43,7 +43,7 @@ namespace ConsoleChess
             if (piece != null)
             {
                 if (piece.Team == Team.White)
-                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;
                 else
                     Console.ForegroundColor = ConsoleColor.Black;
             }
@@ -55,19 +55,12 @@ namespace ConsoleChess
             Console.ForegroundColor = ConsoleColor.Gray;
         }
 
-        public Command GetCommand(Team team)
+        public Command GetCommand(Player player)
         {
+            Team team = player.Team;
             Console.Write((team == Team.White ? "WHITE" : "BLACK") + " : ");
             string line = Console.ReadLine();
-            try
-            {
-                return CommandFactory.CreateCommand(line);
-            }
-            catch (ArgumentException e)
-            {
-                Alert(e.Message);
-                return GetCommand(team);
-            }
+            return CommandFactory.CreateCommand(line);
         }
 
         public void Alert(string message)

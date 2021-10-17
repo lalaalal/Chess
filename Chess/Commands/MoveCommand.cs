@@ -16,7 +16,22 @@ namespace Chess.Commands
 
         public State Execute(Player player)
         {
+            Judge judge = player.Judge;
+            State state = judge.Check(player, this);
+            if (state is WrongCommandState)
+                return state;
+
+            player.MovePiece(from, to);
+
             return new PlayingState();
+        }
+
+        public Point GetFrom() {
+            return from;
+        }
+
+        public Point GetTo() {
+            return to;
         }
     }
 }

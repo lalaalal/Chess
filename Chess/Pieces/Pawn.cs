@@ -13,9 +13,9 @@ namespace Chess.Pieces
 
         public override PieceType Type => PieceType.Pawn;
 
-        public Pawn(Point point, Team team) : base(point, team)
+        public Pawn(Point point, Team team, bool isMoved = false) : base(point, team)
         {
-            IsMoved = false;
+            IsMoved = isMoved;
         }
 
         /// <summary>
@@ -48,11 +48,16 @@ namespace Chess.Pieces
 
         public override void Move(Point to)
         {
-            IsMoved = true;
+            if (!IsMoved)
+                IsMoved = true;
             base.Move(to);
         }
 
         protected override bool IsLegalMove(Point delta)
             => (delta.y == (int)Team);
+
+        public override Piece Copy() {
+            return new Pawn(CurrentPoint, Team, IsMoved);
+        }
     }
 }

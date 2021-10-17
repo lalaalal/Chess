@@ -32,7 +32,6 @@ namespace Chess.Pieces
             this.Team = team;
             this._currentPoint = new Point(point);
         }
-
         public bool IsFriendly(ImmutablePiece piece)
         {
             return piece != null && piece.Team == Team;
@@ -68,6 +67,16 @@ namespace Chess.Pieces
         public Piece Clone()
         {
             return Piece.CreatePiece(Type, _currentPoint, Team);
+        }
+
+        public virtual Piece Copy()
+        {
+            return Piece.CreatePiece(Type, CurrentPoint, Team);
+        }
+
+        public override string ToString()
+        {
+            return Identifier + CurrentPoint.ToString();
         }
     }
 

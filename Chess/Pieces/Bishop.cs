@@ -1,5 +1,3 @@
-using System;
-
 namespace Chess.Pieces
 {
     public class Bishop : Piece

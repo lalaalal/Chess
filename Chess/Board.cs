@@ -43,7 +43,7 @@ namespace Chess
 
         public static bool IsPointInRange(Point point)
         {
-            return 0 <= point.x && point.x <= 8 && 0 <= point.y && point.y <= 8;
+            return 0 <= point.x && point.x < 8 && 0 <= point.y && point.y < 8;
         }
 
         public delegate ImmutablePiece PieceGetter(Point from, Point delta);
@@ -77,6 +77,21 @@ namespace Chess
             set => board[point.y, point.x] = value;
         }
 
+        public Board() { }
+
+        public Board(BoardView rhs) {
+            for (int y = 0; y < 8; y++) {
+                for (int x = 0; x < 8; x++) {
+                    ImmutablePiece piece = rhs[new Point(x, y)];
+                    if (piece == null)
+                        board[y, x] = null;
+                    else
+                        board[y, x] = piece.Copy();
+
+                }
+            }
+        }
+
         public void AddPiece(PieceType kind, Point point, Team team)
         {
             this[point] = Piece.CreatePiece(kind, point, team);
@@ -90,13 +105,14 @@ namespace Chess
 
         public Piece PopPiece(Point point)
         {
+            this[point] = null;
             return this[point];
         }
 
         public bool MovePiece(Point from, Point to)
         {
             Piece target = this[from];
-            if (!target.CanMoveTo(to, this))
+            if (IsEmpty(from) || !target.CanMoveTo(to, this))
                 return false;
 
             this[from] = null;

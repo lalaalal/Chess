@@ -1,5 +1,4 @@
 using Chess.Commands;
-using Chess.Pieces;
 
 namespace Chess
 {
@@ -7,6 +6,6 @@ namespace Chess
     {
         void Display(BoardView board);
         void Alert(string message);
-        Command GetCommand(Team team);
+        Command GetCommand(Player player);
     }
 }
