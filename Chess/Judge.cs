@@ -2,32 +2,42 @@ using System.Collections.Generic;
 using Chess.Pieces;
 using Chess.Commands;
 using Chess.Status;
+using Chess.Rules;
 
 namespace Chess
 {
     public class Judge
     {
         private BoardView board;
-        private List<ChessRule> rules = new List<ChessRule>();
+        private List<CommanderRule> commanderRules = new List<CommanderRule>();
+        private List<OppositePlayerRule> oppositeRules = new List<OppositePlayerRule>();
 
         public Judge(BoardView board)
         {
             this.board = board;
 
-            rules.Add(new MovingRule());
+            commanderRules.Add(new MovingRule());
+
+            oppositeRules.Add(new CheckmateRule());
         }
 
-        public void AddRule(ChessRule rule)
-        {
-            rules.Add(rule);
-        }
-
-        public State Check(Player player, MoveCommand cmd)
+        public State CheckCommander(Player player, MoveCommand cmd)
         {
             State state = new PlayingState();
-            foreach (ChessRule rule in rules) {
+            foreach (CommanderRule rule in commanderRules) {
                 state = rule.Check(player, board, cmd);
-                if (state is WrongCommandState)
+                if (!(state is PlayingState))
+                    return state;
+            }
+            return state;
+        }
+
+        public State CheckOpposite(Player opposite)
+        {
+            State state = new PlayingState();
+            foreach (OppositePlayerRule rule in oppositeRules) {
+                state = rule.Check(opposite, board);
+                if (!(state is PlayingState))
                     return state;
             }
             return state;

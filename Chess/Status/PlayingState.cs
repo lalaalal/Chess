@@ -2,6 +2,6 @@ namespace Chess.Status
 {
     public class PlayingState : State
     {
-        public string Message => "Playing";
+        public virtual string Message => "Playing";
     }
 }

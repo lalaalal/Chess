@@ -17,6 +17,6 @@ namespace Chess.Pieces
         public Queen(Team team) : base(DefaultPoint(team), team) { }
 
         protected override bool IsLegalMove(Point delta)
-            => (delta.Abs == diagonalUnitLength || delta.Abs == crossUnitLength);
+            => (delta.Unit.Abs == diagonalUnitLength || delta.Unit.Abs == crossUnitLength);
     }
 }

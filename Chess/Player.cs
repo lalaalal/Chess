@@ -5,7 +5,7 @@ namespace Chess
     public class Player
     {
         public Team Team { get; set; }
-        public Team Enemy { get => Team == Team.White ? Team.White : Team.Black; }
+        public Team Enemy { get => Team == Team.White ? Team.Black : Team.White; }
 
         private Board board;
         public King King { get; private set; }

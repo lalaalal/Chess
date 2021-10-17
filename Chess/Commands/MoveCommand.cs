@@ -17,7 +17,7 @@ namespace Chess.Commands
         public State Execute(Player player)
         {
             Judge judge = player.Judge;
-            State state = judge.Check(player, this);
+            State state = judge.CheckCommander(player, this);
             if (state is WrongCommandState)
                 return state;
 

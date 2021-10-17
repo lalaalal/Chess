@@ -36,11 +36,20 @@ namespace Chess
         {
             get
             {
-                int x = this.x == 0 ? 0 : this.x / Math.Abs(this.x);
-                int y = this.y == 0 ? 0 : this.y / Math.Abs(this.y);
+                int gcd = GCD(Math.Abs(this.x), Math.Abs(this.y));
+                int x = this.x == 0 ? 0 : this.x / gcd;
+                int y = this.y == 0 ? 0 : this.y / gcd;
 
                 return new Point(x, y);
             }
+        }
+
+        private int GCD(int x, int y)
+        {
+            if (y == 0)
+                return x;
+            else
+                return GCD(y, x % y);
         }
 
         public double Abs => Math.Sqrt(x * x + y * y);

@@ -69,6 +69,47 @@ namespace Chess.Pieces
             return Piece.CreatePiece(Type, _currentPoint, Team);
         }
 
+        public ImmutablePiece IsInDanger(BoardView board)
+        {
+            int[] straightDx = { 0, 1, 1, 1, 0, -1, -1, -1 };
+            int[] straightDy = { 1, 1, 0, -1, -1, -1, 0, 1 };
+
+            int[] knightDx = { 1, 2, 2, 1, -1, -2, -2, -1 };
+            int[] knightDy = { 2, 1, -1, -2, -2, -1, 1, 2 };
+
+            int[] pawnDx = { -1, 1 };
+            int[] pawnDy = { (int)Team, (int)Team };
+
+            Board.PieceGetter getFirstPieceOnPath = new Board.PieceGetter(board.GetFirstPieceOnPath);
+            Board.PieceGetter getPieceAtPoint = new Board.PieceGetter(board.GetPieceAtPoint);
+
+            ImmutablePiece piece = _IsInDanger(straightDx, straightDy, getFirstPieceOnPath, board);
+            if (piece != null)
+                return piece;
+            piece = _IsInDanger(knightDx, knightDy, getPieceAtPoint, board);
+            if (piece != null)
+                return piece;
+            return _IsInDanger(pawnDx, pawnDy, getPieceAtPoint, board);
+            
+        }
+
+        private ImmutablePiece _IsInDanger(int[] dx, int[] dy, Board.PieceGetter GetPiece, BoardView board)
+        {
+            for (int i = 0; i < dx.Length; i++)
+            {
+                Point delta = new Point(dx[i], dy[i]);
+                ImmutablePiece piece = GetPiece(CurrentPoint, delta);
+
+                if (piece == null || IsFriendly(piece))
+                    continue;
+
+                if (piece.CanMoveTo(CurrentPoint, board))
+                    return piece;
+            }
+
+            return null;
+        }
+
         public virtual Piece Copy()
         {
             return Piece.CreatePiece(Type, CurrentPoint, Team);

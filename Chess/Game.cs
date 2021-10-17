@@ -23,16 +23,18 @@ namespace Chess
 
         public void Play()
         {
-            view.Display(Board);
             
             State state = new PlayingState();
             Player currentPlayer = white;
             while (state is PlayingState)
             {
+                view.Display(Board);
+                view.Alert(state.Message);
                 state = ProcessTurn(currentPlayer);
 
                 currentPlayer = GetNextPlayer(currentPlayer);
             }
+            view.Display(Board);
             view.Alert(state.Message);
         }
 
@@ -55,7 +57,9 @@ namespace Chess
                 command = view.GetCommand(player);
                 state = command.Execute(player);
             }
-            view.Display(Board);
+            Judge judge = new Judge(_board);
+            Player oppositePlayer = GetNextPlayer(player);
+            state = judge.CheckOpposite(oppositePlayer);
 
             return state;
         }

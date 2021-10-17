@@ -2,9 +2,10 @@ using Chess.Commands;
 using Chess.Status;
 using Chess.Pieces;
 
-namespace Chess
+namespace Chess.Rules
 {
-    public class MovingRule : ChessRule {
+    public class MovingRule : CommanderRule
+    {
         public State Check(Player player, BoardView board, MoveCommand command)
         {
             Point from = command.GetFrom();
@@ -20,10 +21,10 @@ namespace Chess
             if (!piece.CanMoveTo(command.GetTo(), board))
                 return new WrongCommandState(piece + " can't move to " + to);
             Board testBoard = new Board(board);
-            testBoard.PopPiece(from);
-            if (player.King.IsCheck(testBoard))
-                return new WrongCommandState(piece + " can't move to " + to);
-            
+            King testKing = (King)testBoard[player.King.CurrentPoint];
+            testBoard.MovePiece(from, to);
+            if (testKing.IsCheck(testBoard))
+                return new WrongCommandState(piece + " can't move to " + to + " (check)");
             
             return new PlayingState();
         }
