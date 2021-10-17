@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Chess.Pieces;
 using Chess.Commands;
-using Chess.Status;
+using Chess.States;
 using Chess.Rules;
 
 namespace Chess

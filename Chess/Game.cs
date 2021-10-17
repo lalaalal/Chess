@@ -1,6 +1,6 @@
 using Chess.Pieces;
 using Chess.Commands;
-using Chess.Status;
+using Chess.States;
 
 namespace Chess
 {
@@ -23,19 +23,23 @@ namespace Chess
 
         public void Play()
         {
-            
-            State state = new PlayingState();
+            State commandState = new PlayingState();
+            State playerState = new PlayingState();
             Player currentPlayer = white;
-            while (state is PlayingState)
+            while (commandState is PlayingState && playerState is PlayingState)
             {
                 view.Display(Board);
-                view.Alert(state.Message);
-                state = ProcessTurn(currentPlayer);
+                view.Alert(playerState.Message);
+                commandState = ProcessTurn(currentPlayer);
 
+                Judge judge = new Judge(_board);
+                Player oppositePlayer = GetNextPlayer(currentPlayer);
+                playerState = judge.CheckOpposite(oppositePlayer);
+                            
                 currentPlayer = GetNextPlayer(currentPlayer);
             }
             view.Display(Board);
-            view.Alert(state.Message);
+            view.Alert(playerState.Message);
         }
 
         private Player GetNextPlayer(Player player)
@@ -57,9 +61,6 @@ namespace Chess
                 command = view.GetCommand(player);
                 state = command.Execute(player);
             }
-            Judge judge = new Judge(_board);
-            Player oppositePlayer = GetNextPlayer(player);
-            state = judge.CheckOpposite(oppositePlayer);
 
             return state;
         }

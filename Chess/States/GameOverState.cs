@@ -1,7 +1,7 @@
 using Chess.Pieces;
 using System;
 
-namespace Chess.Status
+namespace Chess.States
 {
     public class GameOverState : State
     {

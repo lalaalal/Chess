@@ -1,4 +1,4 @@
-using Chess.Status;
+using Chess.States;
 
 namespace Chess.Rules
 {

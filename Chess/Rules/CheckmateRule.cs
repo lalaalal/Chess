@@ -1,5 +1,4 @@
-using Chess.Status;
-using Chess.Commands;
+using Chess.States;
 using Chess.Pieces;
 
 namespace Chess.Rules

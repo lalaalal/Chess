@@ -1,4 +1,4 @@
-namespace Chess.Status
+namespace Chess.States
 {
     public class WrongCommandState : State
     {

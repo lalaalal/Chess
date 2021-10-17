@@ -1,5 +1,5 @@
 using Chess.Commands;
-using Chess.Status;
+using Chess.States;
 
 namespace Chess
 {
