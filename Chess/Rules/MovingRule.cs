@@ -12,12 +12,6 @@ namespace Chess.Rules
             Point to = command.GetTo();
             ImmutablePiece piece = board[from];
 
-            if (!Board.IsPointInRange(from) || !Board.IsPointInRange(to))
-                return new WrongCommandState(from + " or " + to + " is out of range");
-            if (piece == null) 
-                return new WrongCommandState(from + " is empty");
-            if (player.Team != piece.Team)
-                return new WrongCommandState(piece + " is enemy");
             if (!piece.CanMoveTo(command.GetTo(), board))
                 return new WrongCommandState(piece + " can't move to " + to);
             Board testBoard = new Board(board);

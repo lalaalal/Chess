@@ -8,7 +8,9 @@ namespace Chess
         public Team Enemy { get => Team == Team.White ? Team.Black : Team.White; }
 
         private Board board;
-        public King King { get; private set; }
+
+        private King _king;
+        public ImmutablePiece King => _king;
 
         public Judge Judge { get; private set; }
 
@@ -17,8 +19,8 @@ namespace Chess
             Team = team;
             this.board = board;
 
-            King = new King(Team);
-            board.AddPiece(King);
+            _king = new King(Team);
+            board.AddPiece(_king);
             board.AddPiece(new Queen(Team));
 
             board.AddPiece(new Rook(0, team));

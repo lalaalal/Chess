@@ -32,10 +32,10 @@ namespace Chess
                 view.Alert(playerState.Message);
                 commandState = ProcessTurn(currentPlayer);
 
-                Judge judge = new Judge(_board);
+                Judge judge = currentPlayer.Judge;
                 Player oppositePlayer = GetNextPlayer(currentPlayer);
                 playerState = judge.CheckOpposite(oppositePlayer);
-                            
+
                 currentPlayer = GetNextPlayer(currentPlayer);
             }
             view.Display(Board);

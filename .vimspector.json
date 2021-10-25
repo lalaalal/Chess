@@ -1,0 +1,14 @@
+{
+  "configurations": {
+    "launch": {
+      // This is a single-line comment  explaining the purpose
+      "adapter": "netcoredbg",
+      "configuration": {
+        "request": "launch" /* or it could be "attach" */,
+        "program": "./ConsoleChess/bin/Debug/netcoreapp3.1/ConsoleChess.dll",
+        "console": "integratedTerminal",
+        "stopOnEntry": true
+      }
+    }
+  }
+}

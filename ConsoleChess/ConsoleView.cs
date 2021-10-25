@@ -2,7 +2,6 @@ using System;
 using Chess;
 using Chess.Pieces;
 using Chess.Commands;
-using Chess.States;
 
 namespace ConsoleChess
 {

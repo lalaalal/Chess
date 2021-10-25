@@ -1,4 +1,3 @@
-using System;
 using Chess.States;
 
 namespace Chess.Commands
@@ -27,11 +26,11 @@ namespace Chess.Commands
         }
 
         public Point GetFrom() {
-            return from;
+            return new Point(from);
         }
 
         public Point GetTo() {
-            return to;
+            return new Point (to);
         }
     }
 }

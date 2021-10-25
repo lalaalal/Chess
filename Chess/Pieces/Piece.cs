@@ -21,6 +21,8 @@ namespace Chess.Pieces
 
         public abstract PieceType Type { get; }
 
+        public int NumMoved { get; protected set; }
+
         public Point CurrentPoint { get => new Point(_currentPoint); }
         protected Point _currentPoint;
 
@@ -31,10 +33,22 @@ namespace Chess.Pieces
         {
             this.Team = team;
             this._currentPoint = new Point(point);
+            this.NumMoved = 0;
         }
+
+        public bool IsFriendly(Team team)
+        {
+            return this.Team == team;
+        }
+
         public bool IsFriendly(ImmutablePiece piece)
         {
             return piece != null && piece.Team == Team;
+        }
+
+        public bool IsEnemy(Team team)
+        {
+            return this.Team != team;
         }
 
         public bool IsEnemy(ImmutablePiece piece)
@@ -90,7 +104,7 @@ namespace Chess.Pieces
             if (piece != null)
                 return piece;
             return _IsInDanger(pawnDx, pawnDy, getPieceAtPoint, board);
-            
+
         }
 
         private ImmutablePiece _IsInDanger(int[] dx, int[] dy, Board.PieceGetter GetPiece, BoardView board)
@@ -117,7 +131,7 @@ namespace Chess.Pieces
 
         public override string ToString()
         {
-            return Identifier + CurrentPoint.ToString();
+            return Identifier + BoardView.ToChessFormattedString(CurrentPoint);
         }
     }
 
@@ -142,6 +156,10 @@ namespace Chess.Pieces
 
         }
 
-        public virtual void Move(Point to) => _currentPoint.Move(to);
+        public virtual void Move(Point to)
+        {
+            NumMoved++;
+            _currentPoint.Move(to);
+        }
     }
 }

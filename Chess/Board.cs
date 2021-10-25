@@ -24,6 +24,13 @@ namespace Chess
             return Convert.ToChar('a' + point.x).ToString() + Convert.ToChar('1' + point.y);
         }
 
+        public static string ToChessFormattedString(Point point)
+        {
+            char x = Convert.ToChar(point.x + 'a');
+            char y = Convert.ToChar(point.y + '1');
+            return "(" + x + ", " + y + ")";
+        }
+
         protected Piece[,] board = new Piece[8, 8];
 
         public ImmutablePiece this[Point point]
@@ -112,8 +119,6 @@ namespace Chess
         public bool MovePiece(Point from, Point to)
         {
             Piece target = this[from];
-            if (IsEmpty(from) || !target.CanMoveTo(to, this))
-                return false;
 
             this[from] = null;
             this[to] = target;

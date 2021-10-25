@@ -6,7 +6,7 @@ namespace Chess.Pieces
 
         public override PieceType Type => PieceType.Rook;
 
-        private static Point DefaultPoint(int x, Team team)
+        public static Point DefaultPoint(int x, Team team)
             => new Point(x, team == Team.White ? 0 : 7);
 
         public Rook(Point point, Team team) : base(point, team) { }
