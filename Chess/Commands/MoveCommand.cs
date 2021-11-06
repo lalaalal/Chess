@@ -13,7 +13,7 @@ namespace Chess.Commands
             this.to = to;
         }
 
-        public State Execute(Player player)
+        public virtual State Execute(Player player)
         {
             Judge judge = player.Judge;
             State state = judge.CheckCommander(player, this);

@@ -151,6 +151,20 @@ namespace Chess.Pieces
             };
         }
 
+        public static PieceType ParsePieceType(char c)
+        {
+            return c switch
+            {
+                'P' => PieceType.Pawn,
+                'N' => PieceType.Knight,
+                'B' => PieceType.Bishop,
+                'R' => PieceType.Rook,
+                'Q' => PieceType.Queen,
+                'K' => PieceType.King,
+                _ => throw new ArgumentException("Wrong piece type")
+            };
+        }
+
         public Piece(Point point, Team team) : base(point, team)
         {
 
